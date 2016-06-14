@@ -1,1 +1,1 @@
-# Pruebas técnica TechK
+# Pruebas técnicas TechK
