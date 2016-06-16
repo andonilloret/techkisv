@@ -131,12 +131,12 @@ que puede estar siendo ineficiente. Hagamos un *EXPLAIN*
 | 1 | SIMPLE | g | NULL | ALL | NULL | NULL | 1361 | 100.00 | Using join buffer (Block Nested Loop) | 
 | 1 | SIMPLE | t | NULL | ALL | NULL | NULL | 21120415 | 0.03 | Using where; Using join buffer (Block Nested Loop) |
 
-| id | select\_type | table |
-| -- | ------------ | ----- |
-| 1 | SIMPLE | p |
-| 1 | SIMPLE | g |
-| 1 | SIMPLE | t |
 
+| id | select\_type |
+| -- | ------------ |
+| 1 | SIMPLE |
+| 1 | SIMPLE |
+| 1 | SIMPLE |
 
 Si echamos un vistazo a la columna rows observamos que las tres tablas tienen tantas
 filas como tiene la propia tabla. Obviamente esto pasa porque para los JOIN no se están 
