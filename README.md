@@ -125,20 +125,11 @@ que los resultados no serán los más optimos:
 Los resultados muestran unos tiempos inaceptables. Vamos a buscar las razones por las
 que puede estar siendo ineficiente. Hagamos un *EXPLAIN*
 
-| Ejecucción número | Duración |
-| ----------------- | -------- |
-| #1 | 294,684 sec |
-| #2 | 285,178 sec |
-| #3 | 306,765 sec |
-| #4 | 307,489 sec |
-| #5 | 296,367 sec |
-| #6 | 299,126 sec |
-
-|select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | Extra |
-| ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
-| SIMPLE | p | NULL | ALL | NULL | NULL | NULL | NULL | 693 | 100.00 | Using temporary; Using filesort |
-| SIMPLE | g | NULL | ALL | NULL | NULL | NULL | NULL | 1361 | 100.00 | Using join buffer (Block Nested Loop) |
-| SIMPLE | t | NULL | ALL | NULL | NULL | NULL | NULL | 21120415 | 0.03 | Using where; Using join buffer (Block Nested Loop) |
+|select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered |
+| ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- |
+| SIMPLE | p | NULL | ALL | NULL | NULL | NULL | NULL | 693 | 100.00 |
+| SIMPLE | g | NULL | ALL | NULL | NULL | NULL | NULL | 1361 | 100.00 |
+| SIMPLE | t | NULL | ALL | NULL | NULL | NULL | NULL | 21120415 | 0.03 |
 
 Si echamos un vistazo a la columna rows observamos que las tres tablas tienen tantas
 filas como tiene la propia tabla. Obviamente esto pasa porque para los JOIN no se están 
@@ -229,11 +220,11 @@ que están indexados. Probemos entonces la query a optimizar:
 Haciendo profiling de la última consulta vemos que el _Sending data_ se ha reducido
 hasta en un 90%. ¿ Y que diferencias encontrariamos si hacemos un *EXPLAIN* ?
 
-| id | select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | extra |
-| -- | ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
-|  1 | SIMPLE | t | NULL| ALL | NULL | NULL | NULL | NULL | 21120415 | 2.78 | Using where; Using temporary; Using filesort |
-|  1 | SIMPLE | p | NULL| ref | PRIMARY | PRIMARY | 2 | isv.t.com_prod_agrup_0 | 6 | 100.00 | Using where; Using index |
-|  1 | SIMPLE | g | NULL | ref | PRIMARY | PRIMARY | 2 | isv.t.com_geo_agrup_0 | 13 | 100.00 | Using where; Using index |
+| select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered |
+| ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- |
+| SIMPLE | t | NULL| ALL | NULL | NULL | NULL | NULL | 21120415 | 2.78 |
+| SIMPLE | p | NULL| ref | PRIMARY | PRIMARY | 2 | isv.t.com_prod_agrup_0 | 6 | 100.00 |
+| SIMPLE | g | NULL | ref | PRIMARY | PRIMARY | 2 | isv.t.com_geo_agrup_0 | 13 | 100.00 |
 
 Lo primero en lo que nos fijamos es la columna rows. Para las tablas *p* y *g*
 la cantidad ha disminuido drásticamente. Con el nuevo indexamiento no es necesario
@@ -275,11 +266,11 @@ SUBPARTITIONS 53 (
 
 Hagamos un *EXPLAIN* de la Query
 
-| id | select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | extra |
-| -- | ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
-|  1 | SIMPLE | t | 'p4_p4sp0,p4_p4s ...'| ALL | NULL | NULL | NULL | NULL | '8299605' | 2.78 | Using where; Using temporary; Using filesort |
-|  1 | SIMPLE | p | NULL| ref | PRIMARY | PRIMARY | 2 | isv.t.com_prod_agrup_0 | 6 | 100.00 | Using where; Using index |
-|  1 | SIMPLE | g | NULL | ref | PRIMARY | PRIMARY | 2 | isv.t.com_geo_agrup_0 | 13 | 100.00 | Using where; Using index |
+| select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered |
+| ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- |
+| SIMPLE | t | 'p4_p4sp0,p4_p4s ...'| ALL | NULL | NULL | NULL | NULL | '8299605' | 2.78 |
+| SIMPLE | p | NULL| ref | PRIMARY | PRIMARY | 2 | isv.t.com_prod_agrup_0 | 6 | 100.00 |
+| SIMPLE | g | NULL | ref | PRIMARY | PRIMARY | 2 | isv.t.com_geo_agrup_0 | 13 | 100.00 |
 
 
 Aquí ya podemos observar que la población de registros de *'isv\_semanas\_tb'* ha 
