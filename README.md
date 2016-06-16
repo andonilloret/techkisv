@@ -123,7 +123,7 @@ que los resultados no serán los más optimos:
 | #6 | 299,126 sec |
 
 Los resultados muestran unos tiempos inaceptables. Vamos a buscar las razones por las
-que puede estar siendo ineficiente. Hagamos un *EXPLAIN*:
+que puede estar siendo ineficiente. Hagamos un EXPLAIN:
 
 | id | select\_type |
 | -- | ------------ |
