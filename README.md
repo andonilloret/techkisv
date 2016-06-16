@@ -127,9 +127,9 @@ que puede estar siendo ineficiente. Hagamos un EXPLAIN:
 
 | id | select\_type |
 | -- | ------------ |
-| 1 | SIMPLE |
-| 1 | SIMPLE |
-| 1 | SIMPLE |
+| 1 | df |
+| 1 | sds |
+| 1 | 456r |
 
 Si echamos un vistazo a la columna rows observamos que las tres tablas tienen tantas
 filas como tiene la propia tabla. Obviamente esto pasa porque para los JOIN no se están 
