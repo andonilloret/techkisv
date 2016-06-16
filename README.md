@@ -134,11 +134,11 @@ que puede estar siendo ineficiente. Hagamos un *EXPLAIN*
 | #5 | 296,367 sec |
 | #6 | 299,126 sec |
 
-| id | select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | Extra |
-| -- | ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
-|  1 | SIMPLE | p | NULL | ALL | NULL | NULL | NULL | NULL | 693 | 100.00 | Using temporary; Using filesort |
-|  1 | SIMPLE | g | NULL | ALL | NULL | NULL | NULL | NULL | 1361 | 100.00 | Using join buffer (Block Nested Loop) |
-|  1 | SIMPLE | t | NULL | ALL | NULL | NULL | NULL | NULL | 21120415 | 0.03 | Using where; Using join buffer (Block Nested Loop) |
+|select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | Extra |
+| ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
+| SIMPLE | p | NULL | ALL | NULL | NULL | NULL | NULL | 693 | 100.00 | Using temporary; Using filesort |
+| SIMPLE | g | NULL | ALL | NULL | NULL | NULL | NULL | 1361 | 100.00 | Using join buffer (Block Nested Loop) |
+| SIMPLE | t | NULL | ALL | NULL | NULL | NULL | NULL | 21120415 | 0.03 | Using where; Using join buffer (Block Nested Loop) |
 
 Si echamos un vistazo a la columna rows observamos que las tres tablas tienen tantas
 filas como tiene la propia tabla. Obviamente esto pasa porque para los JOIN no se están 
