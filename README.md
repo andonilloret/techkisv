@@ -125,12 +125,14 @@ que los resultados no serán los más optimos:
 Los resultados muestran unos tiempos inaceptables. Vamos a buscar las razones por las
 que puede estar siendo ineficiente. Hagamos un *EXPLAIN*
 
-| id | select\_type |
-| -- | ------------ |
-| 1 | 294,684 sec |
-| 2 | 285,178 sec |
-| 3 | 306,765 sec |
-
+| Ejecucción número | Duración |
+| ----------------- | -------- |
+| #1 | 294,684 sec |
+| #2 | 285,178 sec |
+| #3 | 306,765 sec |
+| #4 | 307,489 sec |
+| #5 | 296,367 sec |
+| #6 | 299,126 sec |
 
 | id | select\_type | table | partitions | type | possible\_keys | key | key_len | ref | rows | filtered | Extra |
 | -- | ------------ | ----- | ---------- | ---- | -------------- | --- | ------- | --- | ---- | -------- | ----- |
