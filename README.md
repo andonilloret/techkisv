@@ -123,20 +123,24 @@ que los resultados no serán los más optimos:
 | #6 | 299,126 sec |
 
 Los resultados muestran unos tiempos inaceptables. Vamos a buscar las razones por las
-que puede estar siendo ineficiente. Hagamos un *EXPLAIN*
+que puede estar siendo ineficiente. Hagamos un *EXPLAIN*:
+
+| Ejecucción número | Duración |
+| ----------------- | -------- |
+| #1 | 294,684 sec |
+| #2 | 285,178 sec |
+| #3 | 306,765 sec |
+| #4 | 307,489 sec |
+| #5 | 296,367 sec |
+| #6 | 299,126 sec |
+  
+
 
 | id | select\_type | table | partitions | possible\_keys | key | key_len | rows | filtered | Extra |
 | -- | ------------ | ----- | ---------- | -------------- | --- | ------- | ---- | -------- | ----- | 
 | 1 | SIMPLE | p | NULL | ALL | NULL | NULL | 693 | 100.00 | Using temporary; Using filesort |
 | 1 | SIMPLE | g | NULL | ALL | NULL | NULL | 1361 | 100.00 | Using join buffer (Block Nested Loop) | 
 | 1 | SIMPLE | t | NULL | ALL | NULL | NULL | 21120415 | 0.03 | Using where; Using join buffer (Block Nested Loop) |
-
-
-| id | select\_type |
-| -- | ------------ |
-| 1 | SIMPLE |
-| 1 | SIMPLE |
-| 1 | SIMPLE |
 
 Si echamos un vistazo a la columna rows observamos que las tres tablas tienen tantas
 filas como tiene la propia tabla. Obviamente esto pasa porque para los JOIN no se están 
